@@ -37,20 +37,6 @@ Warnings:
 
 Do you best until you're *proud* of this code!
 
-## Expected Working Time: 2-4 hours
-For Best Experience:
-- Ideally work in Pair Programming
-- You will need a min of 3-4 passes through code
-- Re-read each class until there's **nothing** to improve
-
-
-## Technique
-- Try to use as much quickfix as possible: Alt-Enter/⌥Enter (IntelliJ) or Ctrl-1 (Eclipse) 
-- Use as much automatic IDE refactoring as possible
-- Work in small steps, continuously running tests
-- Commit frequently such that you made a mistake or took a wrong turn, you can revert to safety. 
-- Never be afraid to Revert and explore another design idea
-
 ## Follow-up [optional]
 
 If you're proud of the form your brought the code to, try the following:
