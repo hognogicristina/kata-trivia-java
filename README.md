@@ -1,1 +1,0 @@
-# kata-trivia-java
