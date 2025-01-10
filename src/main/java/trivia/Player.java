@@ -5,6 +5,7 @@ public class Player implements IPlayer {
     private int purses = 0;
     private int places = 0;
     private boolean inPenaltyBox;
+    private int streak = 0;
 
     public Player(String playerName) {
         if (playerName.trim().length() < 2) {
@@ -41,6 +42,10 @@ public class Player implements IPlayer {
         this.purses++;
     }
 
+    public void incrementBonusPurses() {
+        this.purses += 2;
+    }
+
     @Override
     public boolean inPenaltyBox() {
         return this.inPenaltyBox;
@@ -51,4 +56,15 @@ public class Player implements IPlayer {
         this.inPenaltyBox = inPenaltyBox;
     }
 
+    public int getStreak() {
+        return this.streak;
+    }
+
+    public void incrementStreak() {
+        this.streak++;
+    }
+
+    public void resetStreak() {
+        this.streak = 0;
+    }
 }

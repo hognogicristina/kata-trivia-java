@@ -52,12 +52,6 @@ Try to implement some of the following further **change requests**:
 - [hard] Load the question from 4 properties files: rock.properties, sports.properties ... 
 - [hard] A streak is a consecutive sequence of correct answers for a given player. After providing 3 consecutive correct answers, a player earns 2 points with any subsequent correct answer. When a player gives a wrong answer: (a) if (s)he was on a streak, the streak ends OR (b) if there was no streak, the player goes to Penalty box. (In other words, with a running active streak a player does not go to Penalty box, but instead he/she looses the streak). In addition, the game should be won at a double amount of points.
 
-How hard was it to implement these changes ?
-
 ### Write Unit Tests
 Alternatively, try to **write several fine-grained unit tests**
-on the game behavior. It's far easier to do so after you 
-refactored the code isn't it? Refactoring = Deep Understanding.
-
-Hint: you are allowed to expose the player information out of the game
-
+on the game behavior.

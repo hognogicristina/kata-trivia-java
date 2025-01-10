@@ -10,16 +10,23 @@ public class PlayGame {
 
     public static void main(String[] args) {
         System.out.println("*** Welcome to Trivia Game ***\n");
-        System.out.println("Enter number of players: 1-4");
-        int playerCount = Integer.parseInt(scanner.nextLine());
-        if (playerCount < 1 || playerCount > 4) throw new IllegalArgumentException("No player 1..4");
+        System.out.println("Enter number of players: 2-6");
+        int playerCount = readPlayerCount();
         System.out.println("Reading names for " + playerCount + " players:");
         IGame aGame = new Game();
 
         for (int i = 1; i <= playerCount; i++) {
-            System.out.print("Player " + i + " name: ");
-            String playerName = scanner.nextLine();
-            aGame.add(playerName);
+            while (true) {
+                System.out.print("Player " + i + " name: ");
+                String playerName = scanner.nextLine().trim();
+                try {
+                    aGame.add(playerName);
+                    break;
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Invalid name: " + e.getMessage());
+                    System.out.println("Please enter a valid name (at least 2 characters):");
+                }
+            }
         }
 
         System.out.println("\n\n--Starting game--");
@@ -41,10 +48,26 @@ public class PlayGame {
         System.out.println(">> Game won!");
     }
 
+    private static int readPlayerCount() {
+        while (true) {
+            String input = scanner.nextLine().trim();
+            if (!input.matches("\\d+")) {
+                System.out.println("Invalid input. Please enter an integer between 1 and 6:");
+                continue;
+            }
+            int playerCount = Integer.parseInt(input);
+            if (playerCount < 2 || playerCount > 6) {
+                System.out.println("Invalid number of players. Please enter a number between 2 and 6:");
+                continue;
+            }
+            return playerCount;
+        }
+    }
+
     private static boolean readYesNo() {
         String yn = scanner.nextLine().trim().toUpperCase();
         if (!yn.matches("[YN]")) {
-            System.err.println("y or n please");
+            System.out.println("y or n please");
             return readYesNo();
         }
         return yn.equalsIgnoreCase("Y");
@@ -59,12 +82,12 @@ public class PlayGame {
             return roll;
         }
         if (!rollStr.matches("\\d+")) {
-            System.err.println("Not a number: '" + rollStr + "'");
+            System.out.println("Not a number: '" + rollStr + "'");
             return readRoll();
         }
         int roll = Integer.parseInt(rollStr);
         if (roll < 1 || roll > 6) {
-            System.err.println("Invalid roll");
+            System.out.println("Invalid roll");
             return readRoll();
         }
         return roll;

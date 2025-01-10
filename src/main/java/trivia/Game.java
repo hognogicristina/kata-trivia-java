@@ -2,7 +2,6 @@ package trivia;
 
 import java.util.ArrayList;
 
-
 public class Game implements IGame {
     private ArrayList<Player> players = new ArrayList<>();
     private Question question;
@@ -15,14 +14,10 @@ public class Game implements IGame {
 
     @Override
     public boolean add(String playerName) {
-        try {
-            this.players.add(new Player(playerName));
-        } catch (IllegalArgumentException e) {
-            System.out.println("Invalid name: " + e.getMessage());
-            playerName = "Player" + (this.players.size() + 1);
-            System.out.println("Generated name: " + playerName);
-            this.players.add(new Player(playerName));
+        if (players.stream().anyMatch(player -> player.getName().equalsIgnoreCase(playerName))) {
+            throw new IllegalArgumentException("playerName should be unique");
         }
+        this.players.add(new Player(playerName));
         System.out.println(playerName + " was added");
         System.out.println("They are player number " + this.players.size());
         return true;
@@ -55,7 +50,6 @@ public class Game implements IGame {
         } else {
             newCategory(currentPlayer, roll);
         }
-
     }
 
     private void askQuestion(Player currentPlayer) {
@@ -80,30 +74,61 @@ public class Game implements IGame {
         Player currentPlayer = this.players.get(this.currentPlayerIdx);
         if (currentPlayer.inPenaltyBox()) {
             if (this.isGettingOutOfPenaltyBox) {
-                return findWinner(currentPlayer);
+                return handleCorrectAnswer(currentPlayer);
             } else {
-                this.currentPlayerIdx++;
-                if (this.currentPlayerIdx == this.players.size()) this.currentPlayerIdx = 0;
+                moveToNextPlayer();
                 return true;
             }
-
         } else {
-            return findWinner(currentPlayer);
+            return handleCorrectAnswer(currentPlayer);
         }
+    }
+
+    private boolean handleCorrectAnswer(Player currentPlayer) {
+        currentPlayer.incrementStreak();
+        if (currentPlayer.getStreak() >= 3) {
+            currentPlayer.incrementBonusPurses();
+            System.out.println("Streak bonus! " + currentPlayer.getName() + " now has " + currentPlayer.getPurses() + " points.");
+        } else {
+            currentPlayer.incrementPurses();
+        }
+        System.out.println("Answer was correct!!!!");
+        System.out.println(currentPlayer.getName()
+                + " now has "
+                + currentPlayer.getPurses()
+                + " Gold Coins.");
+        boolean winner = didPlayerWin();
+        moveToNextPlayer();
+        return winner;
     }
 
     @Override
     public boolean wrongAnswer() {
         Player currentPlayer = this.players.get(this.currentPlayerIdx);
         System.out.println("Question was incorrectly answered");
-        currentPlayer.setInPenaltyBox(true);
-        System.out.println(currentPlayer.getName() + " was sent to the penalty box");
-        this.currentPlayerIdx++;
-        if (this.currentPlayerIdx == this.players.size()) this.currentPlayerIdx = 0;
+        if (currentPlayer.getStreak() > 0) {
+            System.out.println(currentPlayer.getName() + "'s streak has ended.");
+            System.out.println(currentPlayer.getName()
+                    + " now has "
+                    + currentPlayer.getPurses()
+                    + " Gold Coins.");
+            currentPlayer.resetStreak();
+        } else {
+            System.out.println(currentPlayer.getName() + " was sent to the penalty box.");
+            currentPlayer.setInPenaltyBox(true);
+        }
+        moveToNextPlayer();
         return true;
     }
 
+    private void moveToNextPlayer() {
+        this.currentPlayerIdx++;
+        if (this.currentPlayerIdx == this.players.size()) {
+            this.currentPlayerIdx = 0;
+        }
+    }
+
     private boolean didPlayerWin() {
-        return !(this.players.get(this.currentPlayerIdx).getPurses() == 6);
+        return !(this.players.get(this.currentPlayerIdx).getPurses() >= 12);
     }
 }
