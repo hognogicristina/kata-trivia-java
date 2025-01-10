@@ -1,7 +1,4 @@
 # Trivia Refactoring Kata
-Arranged by Victor Rentea
-
-(Just one of the many coding katas at [kata-log.rocks](https://kata-log.rocks/))
 
 ## The problem
 Here is a preview of a game in action.
@@ -53,12 +50,6 @@ For Best Experience:
 - Work in small steps, continuously running tests
 - Commit frequently such that you made a mistake or took a wrong turn, you can revert to safety. 
 - Never be afraid to Revert and explore another design idea
-
-***
-After you're DONE, zip your work and send it to Victor for review.
-***
-
-Afterwards, if you want even more...
 
 ## Follow-up [optional]
 
